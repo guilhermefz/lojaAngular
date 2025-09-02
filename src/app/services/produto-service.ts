@@ -10,8 +10,9 @@ export class ProdutoService {
     {id: 1, nome: 'Martelo'},
     {id:2, nome: 'Prego'},
     {id: 3, nome:'Makita'},
+    {id: 4, nome:'Parafusadeira'},
   ];
-  private nextId = 4;
+  private nextId = 5;
 
   listar(): ProdutoModel[]{
     return [...this.produtos]
