@@ -17,13 +17,13 @@ export class LojaService {
     return [...this.loja]
   }
 
-  adicionar(nome: string, cnpj: string, endereco: string, telefone: string): LojaModel{
-    const novo: LojaModel = {id: this.nextId++, cnpj, nome, endereco, telefone};
-    this.loja.push(novo);
-    return novo;
-  }
+  // adicionar(nome: string, cnpj: string, endereco: string, telefone: string): LojaModel{
+  //   const novo: LojaModel = {id: this.nextId++, cnpj, nome, endereco, telefone};
+  //   this.loja.push(novo);
+  //   return novo;
+  // }
 
-  remover(id: number): void{
-    this.loja = this.loja.filter(p => p.id !== id);
-  }
+  // remover(id: number): void{
+  //   this.loja = this.loja.filter(p => p.id !== id);
+  // }
 }
