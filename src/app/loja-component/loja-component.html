@@ -1,11 +1,14 @@
 <h1>loja</h1>
 
+@if (loading) {<div class="alert alert-info"> Carregadno </div> }
+@if (erro) {<div class="alert alert-danger"> {{erro}} </div> }
+
 <div class="row g-2 align-items-center mb-3">
     <div class="col-sm-6 col-md-4">
         <input class="form-control"
                       [(ngModel)]="novoNome"
                       placeholder="Nome da loja" >
-        <input class="form-control"
+        <!-- <input class="form-control"
                       [(ngModel)]="novocnpj"
                       placeholder="cnpj da loja" >
         <input class="form-control"
@@ -13,20 +16,20 @@
                       placeholder="endereco da loja" >
         <input class="form-control"
                       [(ngModel)]="novotelefone"
-                      placeholder="telefone da loja" >
+                      placeholder="telefone da loja" > -->
     </div>
-    <div class="col-auto">
+    <!-- <div class="col-auto">
         <button class="btn btn-info" (click)="adicionar()">Adicionar</button>
-    </div>
+    </div> -->
     
 </div>
 <ul class="list-group mb-3">
     @for (p of lojas; track p.id) {
         <li class="list-group-item d-flex justify-content-between
         align-items-center">
-            <span>{{p.id}} - {{p.cnpj}} - {{p.nome}} - {{p.endereco}} - {{p.telefone}} </span>
-            <button class="btn btn-sm btn-outline-danger"
-                (click)="remover(p.id)">Remover</button>
+            <span>{{p.cnpj}} - {{p.nome}} - {{p.endereco}} - {{p.telefone}} </span>
+            <!-- <button class="btn btn-sm btn-outline-danger"
+                (click)="remover(p.id)">Remover</button> -->
         </li>
     }
 </ul>

@@ -1,20 +1,19 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { LojaModel } from '../models/LojaModel';
+import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class LojaService {
-  private loja: LojaModel[] = [
-    { id: 1, cnpj:'21212121', nome:'Galpao', endereco:'Balneario', telefone:'65463363'},
-    { id: 2, cnpj:'54636363', nome:'Nuvem', endereco:'EUA', telefone:'65464444'},
-    { id: 3, cnpj:'21298979', nome:'Centauro', endereco:'Xaxim', telefone:'3524235'},
-    { id: 4, cnpj:'21345864', nome:'Riachuelo', endereco:'Chapeco', telefone:'532523'}
-  ];
-  private nextId = 5;
+  private http = inject(HttpClient);
+  private baseUrl = 'http://localhost:8080/loja';
+  
+  private lojas: LojaModel[] = [];
 
-  listar(): LojaModel[]{
-    return [...this.loja]
+  listar(): Observable<LojaModel[]>{
+    return this.http.get<LojaModel[]>(`${this.baseUrl}/listar`).pipe(catchError(this.handle));
   }
 
   // adicionar(nome: string, cnpj: string, endereco: string, telefone: string): LojaModel{
@@ -26,4 +25,8 @@ export class LojaService {
   // remover(id: number): void{
   //   this.loja = this.loja.filter(p => p.id !== id);
   // }
+  private handle(err: HttpErrorResponse){
+    const msg = err.error?.message || err.error?.erro || err.message || 'Erro Inesperado';
+    return throwError(() => new Error(msg));
+  }
 }
