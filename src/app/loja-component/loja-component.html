@@ -1,7 +1,8 @@
 <h1>loja</h1>
 
-@if (loading) {<div class="alert alert-info"> Carregadno </div> }
+@if (loading) {<div class="alert alert-info"> Carregando </div> }
 @if (erro) {<div class="alert alert-danger"> {{erro}} </div> }
+@if (ok) {<div class="alert alert-success"> {{ok}} </div> }
 
 <div class="row g-2 align-items-center mb-3">
     <div class="col-sm-6 col-md-4">

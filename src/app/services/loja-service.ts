@@ -16,6 +16,10 @@ export class LojaService {
     return this.http.get<LojaModel[]>(`${this.baseUrl}/listar`).pipe(catchError(this.handle));
   }
 
+  adicionar(produto: LojaModel): Observable<LojaModel>{
+    return this.http.post<LojaModel>(`${this.baseUrl}/salvar`, produto).pipe(catchError(this.handle));
+  }
+  
   // adicionar(nome: string, cnpj: string, endereco: string, telefone: string): LojaModel{
   //   const novo: LojaModel = {id: this.nextId++, cnpj, nome, endereco, telefone};
   //   this.loja.push(novo);

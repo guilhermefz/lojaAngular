@@ -16,11 +16,17 @@ export class ProdutoService {
     return this.http.get<ProdutoModel[]>(`${this.baseUrl}/listar`).pipe(catchError(this.handle));
   }
 
-  // adicionar(nome: string): ProdutoModel{
-  // }
+  adicionar(produto: ProdutoModel): Observable<ProdutoModel>{
+    return this.http.post<ProdutoModel>(`${this.baseUrl}/salvar`, produto).pipe(catchError(this.handle));
+  }
 
-  // remover(id: number): void{
-    
+  remover(id: string): Observable<string>{
+    return this.http.post(`${this.baseUrl}/apagar/${id}`, null,
+    {responseType: 'text'}).pipe(catchError(this.handle));
+  }
+
+  // delete(id: string){
+  //   return this.delete(`${this.baseUrl}/apagar/${id}`)
   // }
 
   private handle(err: HttpErrorResponse){

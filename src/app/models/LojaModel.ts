@@ -1,5 +1,5 @@
 export interface LojaModel{
-    id: number;
+    id: string;
     cnpj: string;
     nome: string;
     endereco: string;

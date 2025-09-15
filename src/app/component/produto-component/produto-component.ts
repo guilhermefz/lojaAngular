@@ -15,14 +15,15 @@ export class ProdutoComponent implements OnInit {
 
   private service = inject(ProdutoService);
 
-  produtos: ProdutoModel[]=[];
+  produtos: ProdutoModel[] = [];
   novoNome = '';
   novoPreco = '';
   novaDescricao = '';
   erro = '';
+  ok = '';
 
   loading = false;
-  ngOnInit(){
+  ngOnInit() {
     this.carregar();
   }
 
@@ -31,6 +32,7 @@ export class ProdutoComponent implements OnInit {
     this.service.listar().subscribe({
       next: item => {
         this.produtos = item; this.loading = false;
+      
       },
       error: e => {
         this.erro = e.message;
@@ -39,18 +41,63 @@ export class ProdutoComponent implements OnInit {
     })
   }
 
-  // adicionar(){
-  //   const nome= this.novoNome.trim();
-  //   if(!nome) return;
-  //   this.service.adicionar(nome);
-  //   this.novoNome ='';
-  //   this.carregar();
-  // }
+  adicionar() {
+    this.erro = '';
+    const precoNum = Number(this.novoPreco);
+    const nome = this.novoNome.trim();
+    if (!nome) {
+      this.erro = 'Informe os valores do campo nome';
+      return;
+    }
+    if (Number.isNaN(precoNum) || precoNum < 0) {
+      this.erro = 'Informe os valores';
+      return;
+    }
+    if (!this.novaDescricao.trim()) {
+      this.erro = 'Informe uma descrição';
+      return;
+    }
+    
+    const payload : ProdutoModel={
+      id : '',
+      nome: this.novoNome,
+      descricao: this.novaDescricao,
+      preco: precoNum
+    }
 
-  //   remover(id: number){
-  //     this.service.remover(id);
-  //     this.carregar();
-  //   }
+    this.loading = true;
+    this.service.adicionar(payload).subscribe({
+      next: (p) => {
+        this.ok = `Produto ${p.nome} salvo com sucesso`;
+        this.loading = false;
+        this.novoNome = '';
+        this.novaDescricao = '';
+        this.novoPreco = '';
+        this.carregar();
+        
+          setTimeout(() => this.ok = '', 3000);
+      },
+      error: (e) => {
+        this.erro = e.message || 'falha ao salvar o produto';
+        this.loading = false;
+        setTimeout(() => this.erro = '', 3000);
+      }
+    })
+  }
+
+    remover(id: string){
+      this.service.remover(id).subscribe({
+        next: (msg: string) => {
+          this.ok = msg || "Produto apagado";
+          this.carregar();
+          setTimeout(() => this.ok = '' ,3000);
+        },
+        error: e => {
+          this.erro = e.message || "Deu ruim";
+        }
+      })
+      
+    }
 
 
 
