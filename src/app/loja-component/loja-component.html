@@ -9,7 +9,7 @@
         <input class="form-control"
                       [(ngModel)]="novoNome"
                       placeholder="Nome da loja" >
-        <!-- <input class="form-control"
+        <input class="form-control"
                       [(ngModel)]="novocnpj"
                       placeholder="cnpj da loja" >
         <input class="form-control"
@@ -17,11 +17,11 @@
                       placeholder="endereco da loja" >
         <input class="form-control"
                       [(ngModel)]="novotelefone"
-                      placeholder="telefone da loja" > -->
+                      placeholder="telefone da loja" >
     </div>
-    <!-- <div class="col-auto">
+    <div class="col-auto">
         <button class="btn btn-info" (click)="adicionar()">Adicionar</button>
-    </div> -->
+    </div>
     
 </div>
 <ul class="list-group mb-3">
@@ -29,8 +29,8 @@
         <li class="list-group-item d-flex justify-content-between
         align-items-center">
             <span>{{p.cnpj}} - {{p.nome}} - {{p.endereco}} - {{p.telefone}} </span>
-            <!-- <button class="btn btn-sm btn-outline-danger"
-                (click)="remover(p.id)">Remover</button> -->
+            <button class="btn btn-sm btn-outline-danger"
+                (click)="remover(p.id)">Remover</button>
         </li>
     }
 </ul>

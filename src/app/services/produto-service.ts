@@ -25,9 +25,10 @@ export class ProdutoService {
     {responseType: 'text'}).pipe(catchError(this.handle));
   }
 
-  // delete(id: string){
-  //   return this.delete(`${this.baseUrl}/apagar/${id}`)
-  // }
+  editar(id: string, produto: ProdutoModel): Observable<ProdutoModel>{
+    return this.http.post<ProdutoModel>(`${this.baseUrl}/editar/${id}`, produto)
+    .pipe(catchError(this.handle));
+  }
 
   private handle(err: HttpErrorResponse){
     const msg = err.error?.message || err.error?.erro || err.message || 'Erro Inesperado';

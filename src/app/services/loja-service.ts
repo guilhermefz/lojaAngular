@@ -20,15 +20,11 @@ export class LojaService {
     return this.http.post<LojaModel>(`${this.baseUrl}/salvar`, produto).pipe(catchError(this.handle));
   }
   
-  // adicionar(nome: string, cnpj: string, endereco: string, telefone: string): LojaModel{
-  //   const novo: LojaModel = {id: this.nextId++, cnpj, nome, endereco, telefone};
-  //   this.loja.push(novo);
-  //   return novo;
-  // }
-
-  // remover(id: number): void{
-  //   this.loja = this.loja.filter(p => p.id !== id);
-  // }
+  remover(id: string): Observable<string>{
+    return this.http.post(`${this.baseUrl}/apagar/${id}`, null,
+    {responseType: 'text'}).pipe(catchError(this.handle));
+  }
+  
   private handle(err: HttpErrorResponse){
     const msg = err.error?.message || err.error?.erro || err.message || 'Erro Inesperado';
     return throwError(() => new Error(msg));
