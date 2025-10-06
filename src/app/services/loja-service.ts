@@ -24,6 +24,10 @@ export class LojaService {
     return this.http.post(`${this.baseUrl}/apagar/${id}`, null,
     {responseType: 'text'}).pipe(catchError(this.handle));
   }
+  editar(id: string, produto: LojaModel): Observable<LojaModel>{
+    return this.http.post<LojaModel>(`${this.baseUrl}/editar/${id}`, produto)
+    .pipe(catchError(this.handle));
+  }
   
   private handle(err: HttpErrorResponse){
     const msg = err.error?.message || err.error?.erro || err.message || 'Erro Inesperado';

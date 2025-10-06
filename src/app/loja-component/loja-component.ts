@@ -15,6 +15,7 @@ export class LojaComponent implements OnInit {
   private service = inject(LojaService);
 
   lojas: LojaModel[] = [];
+  editarItem: LojaModel | null = null;
   novoNome = '';
   novocnpj = '';
   novoendereco = '';
@@ -47,6 +48,7 @@ export class LojaComponent implements OnInit {
     const telefone = this.novotelefone.trim();
     const endereco = this.novoendereco.trim();
 
+
     if (!nome) {
       this.erro = 'Informe os valores do campo nome';
       return;
@@ -63,13 +65,14 @@ export class LojaComponent implements OnInit {
       this.erro = 'Informe um endereco';
       return;
     }
+    
 
     const payload : LojaModel={
       id : '',
       nome: nome,
       cnpj: cnpj,
       telefone: telefone,
-      endereco: endereco
+      endereco: endereco,
     }
 
     this.loading = true;
@@ -105,5 +108,24 @@ remover(id: string){
     }
   })
   
+}
+
+salvarEdicao(){
+  if (!this.editarItem?.id) {
+    return;
+  }
+  this.loading = true;
+  this.service.editar(this.editarItem.id, this.editarItem).subscribe({
+    next: result =>{
+      if(result){
+        this.carregar();
+        this.ok ='Produto atualizado com sucesso';
+        setTimeout(()=> this.ok = '' , 3000);
+      }
+    },
+    error: e =>{
+      this.erro = e.message || 'Falha ao editar';
+    }
+  });
 }
 }

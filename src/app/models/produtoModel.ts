@@ -3,4 +3,5 @@ export interface ProdutoModel{
   nome: string;
   descricao: string;
   preco: number;
+  lojaId: string;
 }

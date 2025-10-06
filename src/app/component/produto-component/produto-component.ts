@@ -3,6 +3,7 @@ import { ProdutoService } from '../../services/produto-service';
 import { ProdutoModel } from '../../models/produtoModel';
 import { FormsModule } from '@angular/forms';
 import { Subscriber } from 'rxjs';
+import { LojaModel } from '../../models/LojaModel';
 
 @Component({
   selector: 'app-produto-component',
@@ -16,15 +17,19 @@ export class ProdutoComponent implements OnInit {
   private service = inject(ProdutoService);
 
   produtos: ProdutoModel[] = [];
+  editarItem: ProdutoModel | null = null;
+  lojas: LojaModel[] = [];
   novoNome = '';
   novoPreco = '';
   novaDescricao = '';
+  novaLojaId = '';
   erro = '';
   ok = '';
 
   loading = false;
   ngOnInit() {
     this.carregar();
+    this.carregarLojas();
   }
 
   carregar() {
@@ -41,10 +46,22 @@ export class ProdutoComponent implements OnInit {
     })
   }
 
+  carregarLojas() { 
+    this.service.listarLojas().subscribe({
+      next: itens => {
+        this.lojas = itens;
+      },
+      error: e => {
+        this.erro = e.message;
+      }
+    })
+  }
+
   adicionar() {
     this.erro = '';
     const precoNum = Number(this.novoPreco);
     const nome = this.novoNome.trim();
+    //const loja = this.novaloja.trim();
     if (!nome) {
       this.erro = 'Informe os valores do campo nome';
       return;
@@ -62,7 +79,8 @@ export class ProdutoComponent implements OnInit {
       id : '',
       nome: this.novoNome,
       descricao: this.novaDescricao,
-      preco: precoNum
+      preco: precoNum,
+      lojaId: this.novaLojaId
     }
 
     this.loading = true;
@@ -73,6 +91,7 @@ export class ProdutoComponent implements OnInit {
         this.novoNome = '';
         this.novaDescricao = '';
         this.novoPreco = '';
+        this.novaLojaId = '';
         this.carregar();
         
           setTimeout(() => this.ok = '', 3000);
@@ -98,6 +117,25 @@ export class ProdutoComponent implements OnInit {
       })
       
     }
+
+    salvarEdicao(){
+      if (!this.editarItem?.id) {
+        return;
+      }
+      this.loading = true;
+      this.service.editar(this.editarItem.id, this.editarItem).subscribe({
+        next: result =>{
+          if(result){
+            this.carregar();
+            this.ok ='Produto atualizado com sucesso';
+            setTimeout(()=> this.ok = '' , 3000);
+          }
+        },
+        error: e =>{
+          this.erro = e.message || 'Falha ao editar';
+        }
+      });
+  }
 
 
 
